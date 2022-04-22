@@ -5,23 +5,32 @@ using UnityEngine;
 public class StartGame : MonoBehaviour
 {
     public GameObject Asteroid;
+    [SerializeField] GameObject scoreKeeper;
+    [SerializeField] GameObject collision;
     public int lives = 3;
-    Vector3 velocity = new Vector3(0, 0, 0);
+    int stage, bonus, loopMax;
+
     void spawnAsteroids() {
+
         Instantiate(Asteroid, 
         new Vector3(Random.Range(-2.3f,2.3f),Random.Range(-0.75f,0.75f),0f),
-        Quaternion.Euler(0f,0f,Random.Range(-360,360)));       
+        Quaternion.Euler(0f,0f,Random.Range(-360,360)));  
+        //Vector2.Distance(transform.position,vihu.transform.position);     
     }
     
+    void initStage() {
+        for (int loop=0; loop < loopMax; loop++) {
+                spawnAsteroids();
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
-        spawnAsteroids();
-        spawnAsteroids();
-        spawnAsteroids();
-        spawnAsteroids();
-        spawnAsteroids();
-        spawnAsteroids();
+        stage = 1;
+        loopMax = 4;
+        initStage();
+
+
     }
 
     // Update is called once per frame
@@ -29,7 +38,14 @@ public class StartGame : MonoBehaviour
     {
         
         if (GameObject.FindGameObjectWithTag("Asteroid") == null) {
-            spawnAsteroids();
+            bonus = stage * scoreKeeper.GetComponent<Score>().GetScore();
+            gameObject.GetComponent<Score>().ChangeScore(bonus);
+            Debug.Log(scoreKeeper.GetComponent<Score>().GetScore());
+            stage++;
+            loopMax += 2;
+            initStage();
+            collision.GetComponent<Collision>().invulnerable = true;
+            collision.GetComponent<Collision>().invTimer = 2;
         }
     }
 }
