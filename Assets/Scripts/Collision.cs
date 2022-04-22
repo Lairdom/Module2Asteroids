@@ -27,18 +27,13 @@ public class Collision : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.name == "Asteroid(Clone)" && invulnerable != true
-        || col.name == "SmallAsteroid(Clone)" && invulnerable != true
-        || col.name == "Shot(Clone)" && invulnerable != true) {
-            if (col.name == "Shot(Clone)")
-                Destroy(col.gameObject);
+        || col.name == "SmallAsteroid(Clone)" && invulnerable != true) {
+            // || col.name == "Shot(Clone)" && invulnerable != true
+            // if (col.name == "Shot(Clone)")
+            //    Destroy(col.gameObject);
             
             gameObject.GetComponent<AudioSource>().Play();
-            invulnerable = true;
-            invTimer = 2;
-
-            rb.velocity = new Vector2(0,0);            
-            transform.position = new Vector3(0f,0f,0f);
-            transform.rotation = Quaternion.Euler(0f,0f,0f);
+            
             lives--;
             _ui.viewLives(lives);
             if (lives < 1) {
@@ -46,15 +41,24 @@ public class Collision : MonoBehaviour
                 this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 this.gameObject.GetComponent<PolygonCollider2D>().enabled = false;            
                 Destroy(this.gameObject,2);
-
+            }
+            else {
+                invulnerable = true;
+                invTimer = 2;
+                rb.velocity = new Vector2(0,0);            
+                transform.position = new Vector3(0f,0f,0f);
+                transform.rotation = Quaternion.Euler(0f,0f,0f);
             }
 
 
         }
 
         if (col.name == "PowerUp(Clone)") {
+            col.GetComponent<AudioSource>().Play();
+            col.GetComponent<SpriteRenderer>().enabled = false;
+            col.GetComponent<PolygonCollider2D>().enabled = false;
             gameObject.GetComponent<Firing>().getSecondary();
-            Destroy(col.gameObject);
+            Destroy(col.gameObject,2);
         }
 
     }

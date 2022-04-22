@@ -8,6 +8,7 @@ public class Firing : MonoBehaviour
     [SerializeField] GameObject shot2;
     [SerializeField] GameObject turret;
     [SerializeField] float fireRate = 0.2f;
+    [SerializeField] SpecialsUI _spUI;
     float timer = 0;
     public int secondary = 0;
     void Shoot() {
@@ -29,6 +30,7 @@ public class Firing : MonoBehaviour
 
     public void getSecondary() {
         secondary++;
+        _spUI.viewSpecials(secondary);
     }
     // Start is called before the first frame update
     void Start()
@@ -51,6 +53,7 @@ public class Firing : MonoBehaviour
                     ShootSecondary();
                     timer = 0;
                     secondary--;
+                    _spUI.viewSpecials(secondary);
                 }
             }
         }

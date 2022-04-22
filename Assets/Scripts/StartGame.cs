@@ -38,9 +38,13 @@ public class StartGame : MonoBehaviour
     {
         
         if (GameObject.FindGameObjectWithTag("Asteroid") == null) {
-            bonus = stage * scoreKeeper.GetComponent<Score>().GetScore();
+            if (stage < 3)
+                bonus = stage * 1000;
+            if (stage >= 3 && stage < 6)
+                bonus = stage * 1500;
+            if (stage >= 6)
+                bonus = stage * 2000;
             gameObject.GetComponent<Score>().ChangeScore(bonus);
-            Debug.Log(scoreKeeper.GetComponent<Score>().GetScore());
             stage++;
             loopMax += 2;
             initStage();

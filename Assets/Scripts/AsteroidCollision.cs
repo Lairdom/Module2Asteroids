@@ -19,11 +19,12 @@ public class AsteroidCollision : MonoBehaviour
             this.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
             Destroy(this.gameObject,2);
             
-            int dropChance = Random.Range(0,6);
-            if (dropChance == 5) {
-                Instantiate(powerUp, this.gameObject.transform.position, Quaternion.Euler(0f,0f,0f));
+            int dropChance = Random.Range(0,7);
+            if (dropChance == 6) {
+                GameObject newPowerUp = Instantiate(powerUp, this.gameObject.transform.position, Quaternion.Euler(0f,0f,0f));
+                Destroy(newPowerUp,5);
             }
-            Debug.Log(dropChance);
+            // Debug.Log(dropChance);
             Instantiate(SmallAsteroid, 
             this.gameObject.transform.position,
             Quaternion.Euler(0f,0f,Random.Range(-360,360)));
